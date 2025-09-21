@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Material-like defaults */
+html, body, #__next { height: 100%; }
+
+:root {
+  --google-blue: #1A73E8;
+}
+
+/* Smooth scroll behavior */
+html { scroll-behavior: smooth; }
