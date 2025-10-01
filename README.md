@@ -1,61 +1,134 @@
-# Lume AI Productivity Agent
+# LUME - AI Productivity Assistant
 
-A comprehensive AI-powered productivity agent with Google services integration for Gmail, Calendar, Tasks, Keep, and Maps.
+<div align="center">
+  <h1>🌟 L U M E 🌟</h1>
+  <p><strong>Your Intelligent Google Services Assistant</strong></p>
+</div>
 
-## Features
+A comprehensive full-stack AI-powered productivity agent with Google services integration, featuring a Django REST backend and a beautiful Next.js frontend with Google-themed UI.
 
-- 🔐 **Secure Google OAuth 2.0 Authentication**
-- 📧 **Gmail Integration** (read, send, modify emails)
-- 📅 **Google Calendar Access** (events management)
-- ✅ **Google Tasks Integration**
-- 📝 **Google Keep Access** (notes and lists)
-- 🗺️ **Google Maps Integration**
-- 🤖 **Gemini AI Integration**
-- 🔒 **JWT-based Session Management**
-- 🗄️ **MySQL Database Storage**
+## 🎯 Features
 
-## Quick Start
+- 🔐 **Two-Stage OAuth 2.0** - Smart permission requesting based on user needs
+- 📧 **Gmail Integration** - Send, read, and manage emails
+- 📅 **Google Calendar** - Create and manage calendar events
+- ✅ **Google Tasks** - Task tracking and management
+- 📝 **Google Keep** - Note-taking and organization
+- 💬 **Chat Interface** - Beautiful, intuitive conversation UI
+- 🤖 **Service Detection** - Intelligent detection of required services
+- 🗄️ **MySQL Database** - Persistent storage for users and conversations
+- 📱 **Responsive Design** - Works on all devices
 
-### 1. Environment Setup
+## 🏗️ Architecture
+
+```
+LUME/
+├── lume_django/          # Django REST Backend
+│   ├── oauth/           # OAuth app with two-stage permissions
+│   ├── service_detector/ # Google services intent detection
+│   └── lume_django/     # Django settings
+└── lume_frontend/        # Next.js Frontend
+    ├── src/
+    │   ├── app/         # Next.js 14 app router
+    │   ├── components/  # React components
+    │   └── lib/         # API client
+    └── public/          # Static assets
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.10+
+- Node.js 18+
+- MySQL 8.0+
+- Google Cloud Console account
+
+### 1️⃣ Database Setup
+
+Create MySQL database:
+```sql
+CREATE DATABASE gmail_agent CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### 2️⃣ Google Cloud Console Setup
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing one
+3. Enable the following APIs:
+   - Gmail API
+   - Google Calendar API
+   - Google Tasks API
+   - Google Keep API (if available)
+   - People API
+4. Create OAuth 2.0 credentials:
+   - Application type: Web application
+   - Authorized redirect URIs:
+     - `http://localhost:8000/oauth/callback/`
+     - `http://localhost:8000/oauth/service-callback/`
+5. Download credentials (you'll need Client ID and Client Secret)
+
+### 3️⃣ Backend Setup (Django)
 
 ```bash
-# Clone and navigate to project
-cd lume-agent
+cd lume_django
 
-# Activate virtual environment
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Linux/Mac
+# Create virtual environment (Windows)
+python -m venv venv
+venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Create .env file (use .env.example as template)
+copy .env.example .env
+
+# Edit .env with your credentials
+# DB_NAME=gmail_agent
+# DB_USER=root
+# DB_PASSWORD=Kaustubh@149
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# GOOGLE_CLIENT_ID=your_client_id
+# GOOGLE_CLIENT_SECRET=your_client_secret
+
+# Run migrations
+python manage.py makemigrations
+python manage.py migrate
+
+# Create superuser
+python manage.py createsuperuser
+
+# Run development server
+python manage.py runserver
 ```
 
-### 2. Configuration
+Backend will be available at `http://localhost:8000`
 
-1. Copy the environment template:
+### 4️⃣ Frontend Setup (Next.js)
+
 ```bash
-copy .env.template .env
+cd lume_frontend
+
+# Install dependencies
+npm install
+
+# Environment is already configured in .env.local
+# NEXT_PUBLIC_API_URL=http://localhost:8000
+
+# Run development server
+npm run dev
 ```
 
-2. Fill in your credentials in `.env`:
-   - Get Google OAuth credentials from [Google Cloud Console](https://console.cloud.google.com/)
-   - Get Gemini API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
-   - Configure your MySQL database
+Frontend will be available at `http://localhost:3000`
 
-### 3. Database Setup
+### 5️⃣ Access the Application
 
-Create a MySQL database and update the `DATABASE_URL` in your `.env` file:
-```
-DATABASE_URL=mysql+pymysql://username:password@localhost:3306/lume_db
-```
-
-### 4. Run the Server
-
-```bash
-python main.py
-```
-
-The server will start at `http://localhost:8000`
+1. Open browser to `http://localhost:3000`
+2. Click "Sign in with Google"
+3. Grant base permissions (email, profile, contacts)
+4. Start chatting with LUME!
+5. Additional service permissions will be requested as needed
 
 ## Google OAuth Flow Documentation
 
